@@ -324,7 +324,7 @@ footer{
 
 </div>
 
-<a class="whatsapp" href="https://chat.whatsapp.com/COejcwi8UcO9rD9PjK7Jec" target="_blank">💬</a>
+<a class="whatsapp" href="https://wa.me/7534093986">💬</a>
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
 
@@ -373,8 +373,11 @@ ${item.sweet? "🍰 "+item.sweet:""}
 
 Confirm please`;
 
-function orderItem(){
-    window.open("https://chat.whatsapp.com/COejcwi8UcO9rD9PjK7Jec", "_blank");
+window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
+}
+
+function orderItem(item){
+window.open(`https://wa.me/${phone}?text=Hello I want to order: ${item}`);
 }
 
 // RENDER
