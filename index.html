@@ -239,7 +239,40 @@ footer{
   border-radius:10px;
   transition:0.5s;
 }
+.cheat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-top:15px;
+}
 
+.cheat-item{
+  background:#111;
+  border:1px solid #333;
+  border-radius:15px;
+  padding:10px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.cheat-item:hover{
+  transform:scale(1.05);
+  border-color:gold;
+}
+
+.cheat-item img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.cheat-item p{
+  margin-top:8px;
+  font-size:14px;
+  color:#ffd369;
+}
+  
 </style>
 </head>
 
@@ -297,6 +330,75 @@ footer{
 <div class="card today-menu">
 <h2>📅 Today's Menu</h2>
 <ul id="todays-menu-list"></ul>
+</div>
+
+<!-- CHEAT MEAL SECTION -->
+<div class="card" id="cheat-meal">
+  <h2>🍔 Cheat Meal Menu</h2>
+
+  <div class="cheat-grid">
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/GtcZrnXw/istockphoto-1366672341-612x612.jpg">
+      <p>Cold Coffee</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/KY3fWch5/pyazparatha.jpg">
+      <p>Pyaj Paratha</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/g2JNvqMB/Paneerparatha.jpg">
+      <p>Paneer Paratha</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/NFcdT3VX/paneer-pyaz-paratha-image.jpg">
+      <p>Paneer Pyaz Paratha</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/FsxBbKhP/gobi-paratha.jpg">
+      <p>Gobhi Paratha</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/DZbN1dzh/poha.jpg">
+      <p>Poha</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/Jz1SSkpg/upma.jpg">
+      <p>Upma</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/kMSrS9V1/sandwitch.jpg">
+      <p>Sandwich</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/DyqK9Fnn/vedmaggie.jpg">
+      <p>Veg Maggi</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/wjQgmzG2/cheesemaggie.png">
+      <p>Cheese Maggi</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/zDyzP9yZ/cheese-cordn.jpg">
+      <p>Cheese Corn Maggi</p>
+    </div>
+
+    <div class="cheat-item">
+      <img src="https://i.postimg.cc/tCnKhbYT/bunmakkhan.jpg">
+      <p>Bread Toast Butter</p>
+    </div>
+
+    </div>
 </div>
 
 <!-- WEEK -->
