@@ -387,24 +387,27 @@ footer{
       rating: form.rating.value,
       comment: form.comment.value
     };
-    try {
-      await fetch(scriptURL, {
-  method: 'POST',
- const formData = new URLSearchParams();
-formData.append("name", form.name.value);
-formData.append("rating", form.rating.value);
-formData.append("comment", form.comment.value);
+   form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-await fetch(scriptURL, {
-  method: "POST",
-  body: formData
+  try {
+    const formData = new URLSearchParams();
+    formData.append("name", form.name.value);
+    formData.append("rating", form.rating.value);
+    formData.append("comment", form.comment.value);
+
+    await fetch(scriptURL, {
+      method: "POST",
+      body: formData
+    });
+
+    form.reset();
+    loadReviews(); // refresh list
+
+  } catch (err) {
+    console.error("Error submitting review:", err);
+  }
 });
-      form.reset();
-      loadReviews(); // refresh list
-    } catch (err) {
-      console.error("Error submitting review:", err);
-    }
-  });
 
   loadReviews(); // initial load
 </script>
