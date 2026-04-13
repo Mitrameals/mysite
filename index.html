@@ -351,19 +351,18 @@ footer{
 </div>
 
 <script>
-  const form = document.getElementById('reviewForm');
-  const reviewList = document.getElementById('reviewList');
-  const reviewCount = document.getElementById('reviewCount');
+const form = document.getElementById('reviewForm');
+const reviewList = document.getElementById('reviewList');
+const reviewCount = document.getElementById('reviewCount');
 
-  // 👇 Yahan apna actual Google Apps Script Web App URL paste karo
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwz6RqJ9zicZkzAZdIUBsXTNPY3j4AWBQmcehLb5MBTyK6NdNHCVYlBx_Ctq-2qNa9U/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwz6RqJ9zicZkzAZdIUBsXTNPY3j4AWBQmcehLb5MBTyK6NdNHCVYlBx_Ctq-2qNa9U/exec";
 
-  async function loadReviews() {
+async function loadReviews() {
   try {
     const res = await fetch(scriptURL);
     const json = await res.json();
 
-    const reviews = json.data || [];
+    const reviews = json || [];
 
     reviewCount.textContent = `Total Reviews: ${reviews.length}`;
 
@@ -371,23 +370,16 @@ footer{
       <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
         <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
         <p>${r.comment}</p>
-        <small>${r.date}</small>
+        <small>${r.date || ""}</small>
       </div>
-    `).join('');
+    `).join("");
 
   } catch (err) {
     console.error("Error loading reviews:", err);
   }
 }
 
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const data = {
-      name: form.name.value,
-      rating: form.rating.value,
-      comment: form.comment.value
-    };
-   form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   try {
@@ -402,15 +394,16 @@ footer{
     });
 
     form.reset();
-    loadReviews(); // refresh list
+    loadReviews();
 
   } catch (err) {
     console.error("Error submitting review:", err);
   }
 });
 
-  loadReviews(); // initial load
+loadReviews();
 </script>
+
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
 
