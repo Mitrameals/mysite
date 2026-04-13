@@ -354,7 +354,21 @@ footer{
   const form = document.getElementById('reviewForm');
   const reviewList = document.getElementById('reviewList');
   const reviewCount = document.getElementById('reviewCount');
-  let reviews = [];
+
+  // Load saved reviews from localStorage
+  let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+  function renderReviews() {
+    reviewCount.textContent = `Total Reviews: ${reviews.length}`;
+    reviewList.innerHTML = reviews.map(r => `
+      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
+        <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
+        <p>${r.comment}</p>
+      </div>
+    `).join('');
+  }
+
+  renderReviews();
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -363,24 +377,16 @@ footer{
     const rating = form.rating.value;
     const comment = form.comment.value;
 
-    // Save review in array
     reviews.push({ name, rating, comment });
 
-    // Update count
-    reviewCount.textContent = `Total Reviews: ${reviews.length}`;
+    // Save to localStorage
+    localStorage.setItem('reviews', JSON.stringify(reviews));
 
-    // Show reviews
-    reviewList.innerHTML = reviews.map(r => `
-      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
-        <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
-        <p>${r.comment}</p>
-      </div>
-    `).join('');
-
-    // Reset form
+    renderReviews();
     form.reset();
   });
 </script>
+
 
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
