@@ -214,6 +214,31 @@ footer{
   color:#aaa;
   margin-top:30px;
 }
+  .bar-row{
+  display:flex;
+  align-items:center;
+  margin:6px 0;
+  gap:10px;
+}
+
+.bar-label{
+  width:40px;
+  font-weight:bold;
+}
+
+.bar-track{
+  flex:1;
+  height:10px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.bar-fill{
+  height:100%;
+  border-radius:10px;
+  transition:0.5s;
+}
 
 </style>
 </head>
@@ -346,6 +371,7 @@ footer{
   </form>
 
   <!-- Reviews Summary -->
+  <div id="ratingBars" style="margin:15px 0;"></div>
     <div id="reviewList"></div>
 </div>
 
@@ -363,7 +389,7 @@ async function loadReviews() {
 
     const reviews = Array.isArray(json) ? json : [];
 
-    // ⭐ RATING CALC
+    // ⭐ COUNT RATING
     let ratingCount = {5:0,4:0,3:0,2:0,1:0};
 
     reviews.forEach(r=>{
@@ -373,38 +399,42 @@ async function loadReviews() {
       }
     });
 
-    const config = {
-      5: "green",
-      4: "yellow",
-      3: "pink",
-      2: "red",
-      1: "red"
+    const colors = {
+      5: "#00ff6a",
+      4: "#c8ff00",
+      3: "#ffb300",
+      2: "#ff5e5e",
+      1: "#ff2e2e"
     };
 
+    // ⭐ BAR UI
     document.getElementById("ratingBars").innerHTML =
       [5,4,3,2,1].map(star=>{
-        let percent = reviews.length ? (ratingCount[star] / reviews.length) * 100 : 0;
+        let percent = reviews.length
+          ? (ratingCount[star] / reviews.length) * 100
+          : 0;
 
         return `
           <div class="bar-row">
             <div class="bar-label">${star}⭐</div>
             <div class="bar-track">
-              <div class="bar-fill" style="width:${percent}%; background:${config[star]}"></div>
+              <div class="bar-fill"
+                style="width:${percent}%;background:${colors[star]};box-shadow:0 0 10px ${colors[star]}">
+              </div>
             </div>
           </div>
         `;
       }).join("");
 
-    // reviews list (same as before)
+    // ⭐ REVIEW LIST (optional)
     reviewList.innerHTML = reviews.length
       ? reviews.map(r => `
-        <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
+        <div style="border:1px solid #333;padding:10px;margin:10px 0;border-radius:8px;">
           <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
           <p>${r.comment}</p>
-          <small>${r.date || ""}</small>
         </div>
       `).join("")
-      : "<p>No reviews yet</p>";
+      : "";
 
   } catch (err) {
     console.error("Error loading reviews:", err);
