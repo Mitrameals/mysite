@@ -362,17 +362,20 @@ async function loadReviews() {
     const res = await fetch(scriptURL);
     const json = await res.json();
 
-    const reviews = json || [];
+    // ✅ FIX: ensure array only
+    const reviews = Array.isArray(json) ? json : [];
 
     reviewCount.textContent = `Total Reviews: ${reviews.length}`;
 
-    reviewList.innerHTML = reviews.map(r => `
-      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
-        <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
-        <p>${r.comment}</p>
-        <small>${r.date || ""}</small>
-      </div>
-    `).join("");
+    reviewList.innerHTML = reviews.length
+      ? reviews.map(r => `
+        <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
+          <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
+          <p>${r.comment}</p>
+          <small>${r.date || ""}</small>
+        </div>
+      `).join("")
+      : "<p>No reviews yet</p>";
 
   } catch (err) {
     console.error("Error loading reviews:", err);
@@ -403,7 +406,6 @@ form.addEventListener("submit", async (e) => {
 
 loadReviews();
 </script>
-
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
 
