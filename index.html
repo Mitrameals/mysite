@@ -326,10 +326,10 @@ footer{
 
 <a class="whatsapp" href="https://wa.me/7534093986">💬</a>
 
-  <!-- REVIEWS -->
+ <!-- REVIEWS -->
 <div class="card" id="reviews">
   <h2>⭐ Customer Reviews</h2>
-  <form>
+  <form id="reviewForm">
     <input type="text" name="name" placeholder="Your Name" required style="width:100%;padding:10px;margin:10px 0;border-radius:8px;border:none;">
     
     <select name="rating" style="width:100%;padding:10px;margin:10px 0;border-radius:8px;border:none;">
@@ -344,7 +344,44 @@ footer{
     
     <button class="btn" type="submit">Submit Review</button>
   </form>
+
+  <!-- Reviews Summary -->
+  <h3 id="reviewCount">Total Reviews: 0</h3>
+  <div id="reviewList"></div>
 </div>
+
+<script>
+  const form = document.getElementById('reviewForm');
+  const reviewList = document.getElementById('reviewList');
+  const reviewCount = document.getElementById('reviewCount');
+  let reviews = [];
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = form.name.value;
+    const rating = form.rating.value;
+    const comment = form.comment.value;
+
+    // Save review in array
+    reviews.push({ name, rating, comment });
+
+    // Update count
+    reviewCount.textContent = `Total Reviews: ${reviews.length}`;
+
+    // Show reviews
+    reviewList.innerHTML = reviews.map(r => `
+      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
+        <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
+        <p>${r.comment}</p>
+      </div>
+    `).join('');
+
+    // Reset form
+    form.reset();
+  });
+</script>
+
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
 
