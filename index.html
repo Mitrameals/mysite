@@ -346,8 +346,7 @@ footer{
   </form>
 
   <!-- Reviews Summary -->
-  <h3 id="reviewCount">Total Reviews: 0</h3>
-  <div id="reviewList"></div>
+    <div id="reviewList"></div>
 </div>
 
 <script>
@@ -362,11 +361,41 @@ async function loadReviews() {
     const res = await fetch(scriptURL);
     const json = await res.json();
 
-    // ✅ FIX: ensure array only
     const reviews = Array.isArray(json) ? json : [];
 
-    reviewCount.textContent = `Total Reviews: ${reviews.length}`;
+    // ⭐ RATING CALC
+    let ratingCount = {5:0,4:0,3:0,2:0,1:0};
 
+    reviews.forEach(r=>{
+      let rate = parseInt(r.rating);
+      if(ratingCount[rate] !== undefined){
+        ratingCount[rate]++;
+      }
+    });
+
+    const config = {
+      5: "green",
+      4: "yellow",
+      3: "pink",
+      2: "red",
+      1: "red"
+    };
+
+    document.getElementById("ratingBars").innerHTML =
+      [5,4,3,2,1].map(star=>{
+        let percent = reviews.length ? (ratingCount[star] / reviews.length) * 100 : 0;
+
+        return `
+          <div class="bar-row">
+            <div class="bar-label">${star}⭐</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:${percent}%; background:${config[star]}"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    // reviews list (same as before)
     reviewList.innerHTML = reviews.length
       ? reviews.map(r => `
         <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
