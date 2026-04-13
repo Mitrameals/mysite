@@ -356,7 +356,7 @@ footer{
   const reviewCount = document.getElementById('reviewCount');
 
   // 👇 Yahan apna actual Google Apps Script Web App URL paste karo
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwaH9ojJF94xuYXnRyR5M0oSPCz59Ujv2MJ28dcydRwzNHIHqAZ1nMFYraWiXQ0cyQP/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwz6RqJ9zicZkzAZdIUBsXTNPY3j4AWBQmcehLb5MBTyK6NdNHCVYlBx_Ctq-2qNa9U/exec";
 
   async function loadReviews() {
   try {
@@ -390,10 +390,14 @@ footer{
     try {
       await fetch(scriptURL, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(data)
+ const formData = new URLSearchParams();
+formData.append("name", form.name.value);
+formData.append("rating", form.rating.value);
+formData.append("comment", form.comment.value);
+
+await fetch(scriptURL, {
+  method: "POST",
+  body: formData
 });
       form.reset();
       loadReviews(); // refresh list
