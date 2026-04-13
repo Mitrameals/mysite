@@ -355,39 +355,47 @@ footer{
   const reviewList = document.getElementById('reviewList');
   const reviewCount = document.getElementById('reviewCount');
 
-  // Load saved reviews from localStorage
-  let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+  // 👇 Yahan apna actual Google Apps Script Web App URL paste karo
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyeH7FDn6nszHod0zK0Fkhb2xPb8wuZEBS1jXcYm-iX-Fn-Ri2mjWlXEzpcVpyp2lxOBQ/exec";
 
-  function renderReviews() {
-    reviewCount.textContent = `Total Reviews: ${reviews.length}`;
-    reviewList.innerHTML = reviews.map(r => `
-      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
-        <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
-        <p>${r.comment}</p>
-      </div>
-    `).join('');
+  async function loadReviews() {
+    try {
+      const res = await fetch(scriptURL);
+      const reviews = await res.json();
+      reviewCount.textContent = `Total Reviews: ${reviews.length}`;
+      reviewList.innerHTML = reviews.map(r => `
+        <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:8px;">
+          <strong>${r.name}</strong> - ⭐ ${r.rating}<br>
+          <p>${r.comment}</p>
+          <small>${r.date}</small>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error("Error loading reviews:", err);
+    }
   }
 
-  renderReviews();
-
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    const name = form.name.value;
-    const rating = form.rating.value;
-    const comment = form.comment.value;
-
-    reviews.push({ name, rating, comment });
-
-    // Save to localStorage
-    localStorage.setItem('reviews', JSON.stringify(reviews));
-
-    renderReviews();
-    form.reset();
+    const data = {
+      name: form.name.value,
+      rating: form.rating.value,
+      comment: form.comment.value
+    };
+    try {
+      await fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      form.reset();
+      loadReviews(); // refresh list
+    } catch (err) {
+      console.error("Error submitting review:", err);
+    }
   });
+
+  loadReviews(); // initial load
 </script>
-
-
 
 <footer>Fresh Food | Hygienic | Home Style Taste</footer>
 
