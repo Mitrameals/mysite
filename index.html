@@ -40,11 +40,32 @@ nav h2{
   font-family:'Playfair Display',serif;
   font-size:28px;
 }
+/* ===== PREMIUM NAV LINKS ===== */
 nav a{
-  margin-left:25px;
+  margin-left:15px;
+  padding:8px 18px;
+  border-radius:25px;
+  transition:0.3s;
+  background:transparent;
+  border:1px solid transparent;
   font-weight:500;
 }
-nav a:hover{color:orange;}
+
+/* Hover effect */
+nav a:hover{
+  background:linear-gradient(45deg,gold,orange);
+  color:black;
+  border:1px solid gold;
+  box-shadow:0 0 12px rgba(255,215,0,0.6);
+  transform:translateY(-2px);
+}
+
+/* Active button (Home highlight) */
+nav a.active{
+  background:linear-gradient(45deg,gold,orange);
+  color:black;
+  box-shadow:0 0 10px rgba(255,215,0,0.5);
+}
 
 /* ===== HERO ===== */
 .hero{
@@ -300,7 +321,7 @@ footer{
 <nav>
   <img src="https://i.postimg.cc/7YRL3ffT/tittle-1.png" class="logo">
   <div>
-    <a href="#">Home</a>
+    <a href="#" class="active">Home</a>
     <a href="#weekly-menu">Menu</a>
     <a href="#pricing">Pricing</a>
     <a href="#contact">Contact</a>
